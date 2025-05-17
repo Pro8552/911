@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const {
+  const { joinVoiceChannel } = require('@discordjs/voice');
   Client,
   GatewayIntentBits,
   EmbedBuilder,
@@ -226,6 +227,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const { DisTube } = require('distube');
 const { YtDlpPlugin } = require('@distube/yt-dlp');
+const { joinVoiceChannel } = require('@discordjs/voice');
 const express = require('express');
 
 const client = new Client({
@@ -245,7 +247,7 @@ const distube = new DisTube(client, {
   updateYouTubeDL: false
 });
 
-// Keep-alive لـ Render
+// Keep-alive server (مثلاً لـ Render أو Replit)
 const app = express();
 app.get('/', (_, res) => res.send('Bot is alive!'));
 app.listen(3000, () => console.log('✅ Keep alive server running'));
@@ -263,7 +265,7 @@ distube
     if (channel) channel.send('❌ Error: ' + error.message.slice(0, 2000));
   });
 
-// الأوامر: p / s / stop / come
+// أوامر: p / s / stop / come
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
   const args = message.content.trim().split(/ +/g);
@@ -297,12 +299,15 @@ client.on('messageCreate', async message => {
   if (command === 'come') {
     const vc = message.member.voice.channel;
     if (!vc) return message.reply('❌ لازم تكون بروم صوتي!');
+
     try {
-      await vc.join();
-      const connection = client.voice.adapters.get(vc.guild.id);
-      if (connection) connection.receiver.speaking = false;
-      message.guild.members.me.voice.setSelfDeaf(true);
-      message.channel.send(`✅ Joined ${vc.name} (self-deafened).`);
+      joinVoiceChannel({
+        channelId: vc.id,
+        guildId: vc.guild.id,
+        adapterCreator: vc.guild.voiceAdapterCreator,
+        selfDeaf: true
+      });
+      message.channel.send(`✅ دخلت روم الصوتي: **${vc.name}** وأنا صامت ذاتياً.`);
     } catch (err) {
       console.error(err);
       message.reply('❌ فشل في دخول الروم الصوتي.');
