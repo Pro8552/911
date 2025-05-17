@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const {
-  const { joinVoiceChannel } = require('@discordjs/voice');
   Client,
   GatewayIntentBits,
   EmbedBuilder,
@@ -80,15 +79,15 @@ client.on('messageCreate', async message => {
 }
 
   if (message.channel.name === '・𝑺𝒕𝒓𝒆𝒂𝒌') {
-    const separatorImageURL = 'https://media.discordapp.net/attachments/1247445270858305617/1373225755688964197/Untitled_design.gif?ex=6829a3a5&is=68285225&hm=330bb6093bdae00f3310dab77869f684cd79cb8f01d04abfee0086d9aa600ed4&=&width=800&height=100';
-    await message.channel.send({ files: [separatorImageURL] });
+  const separatorImageURL = 'https://media.discordapp.net/attachments/1247445270858305617/1373225755688964197/Untitled_design.gif?ex=6829a3a5&is=68285225&hm=330bb6093bdae00f3310dab77869f684cd79cb8f01d04abfee0086d9aa600ed4&=&width=800&height=100';
+  await message.channel.send({ files: [separatorImageURL] });
 
-    try {
-      await message.react('<:5_:1373231138574831708>');
-    } catch (err) {
-      console.error('فشل إضافة الرياكشن:', err);
-    }
+  try {
+    await message.react('<:5_:1373231138574831708>');
+  } catch (err) {
+    console.error('فشل إضافة الرياكشن:', err);
   }
+}
 
 
   if (message.content === '!setbday') {
@@ -223,101 +222,5 @@ server.listen(3000, () => {
 // تشغيل الفحص كل 24 ساعة
 setInterval(checkBirthdays, 1000 * 60 * 60 * 24);
 
-require('dotenv').config();
-const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
-const { DisTube } = require('distube');
-const { YtDlpPlugin } = require('@distube/yt-dlp');
-const { joinVoiceChannel } = require('@discordjs/voice');
-const express = require('express');
-
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildVoiceStates,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
-});
-
-const distube = new DisTube(client, {
-  leaveOnStop: false,
-  emitNewSongOnly: true,
-  plugins: [new YtDlpPlugin()],
-  youtubeDL: false,
-  updateYouTubeDL: false
-});
-
-// Keep-alive server (مثلاً لـ Render أو Replit)
-const app = express();
-app.get('/', (_, res) => res.send('Bot is alive!'));
-app.listen(3000, () => console.log('✅ Keep alive server running'));
-
-// أحداث DisTube
-distube
-  .on('playSong', (queue, song) => {
-    queue.textChannel.send(`🎶 Now Playing: **${song.name}** - \`${song.formattedDuration}\``);
-  })
-  .on('addSong', (queue, song) => {
-    queue.textChannel.send(`✅ Added: **${song.name}** - \`${song.formattedDuration}\``);
-  })
-  .on('error', (channel, error) => {
-    console.error(error);
-    if (channel) channel.send('❌ Error: ' + error.message.slice(0, 2000));
-  });
-
-// أوامر: p / s / stop / come
-client.on('messageCreate', async message => {
-  if (message.author.bot || !message.guild) return;
-  const args = message.content.trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
-
-  if (command === 'p' && args.length) {
-    if (!message.member.voice.channel) return message.reply('❌ لازم تكون بروم صوتي!');
-    distube.play(message.member.voice.channel, args.join(' '), {
-      textChannel: message.channel,
-      member: message.member
-    });
-  }
-
-  if (command === 's') {
-    try {
-      await distube.skip(message);
-    } catch {
-      message.channel.send('⚠️ لا يوجد أغنية للتخطي.');
-    }
-  }
-
-  if (command === 'stop') {
-    try {
-      await distube.stop(message);
-      message.channel.send('🛑 Stopped the music.');
-    } catch {
-      message.channel.send('⚠️ لا يوجد أغنية حالياً.');
-    }
-  }
-
-  if (command === 'come') {
-    const vc = message.member.voice.channel;
-    if (!vc) return message.reply('❌ لازم تكون بروم صوتي!');
-
-    try {
-      joinVoiceChannel({
-        channelId: vc.id,
-        guildId: vc.guild.id,
-        adapterCreator: vc.guild.voiceAdapterCreator,
-        selfDeaf: true
-      });
-      message.channel.send(`✅ دخلت روم الصوتي: **${vc.name}** وأنا صامت ذاتياً.`);
-    } catch (err) {
-      console.error(err);
-      message.reply('❌ فشل في دخول الروم الصوتي.');
-    }
-  }
-});
-
-client.once('ready', () => {
-  console.log(`✅ Logged in as ${client.user.tag}`);
-  client.user.setActivity('Music 🎧', { type: ActivityType.Listening });
-});
-
+// تسجيل الدخول
 client.login(process.env.TOKEN);
