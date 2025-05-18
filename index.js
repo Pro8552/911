@@ -47,7 +47,10 @@ client.on('messageCreate', async message => {
     return message.reply('https://tenor.com/view/trollszn123-ronaldo-gif-18268194');
   }
 
-  if (message.channel.name === '・𝑺𝒕𝒓𝒆𝒂𝒌') {
+  if (
+    message.channel.name === '・𝑺𝒕𝒓𝒆𝒂𝒌' &&
+    message.content.trim().toLowerCase() === 'ستريك'
+  ) {
     const separatorImageURL = 'https://media.discordapp.net/attachments/1247445270858305617/1373225755688964197/Untitled_design.gif?ex=6829a3a5&is=68285225&hm=330bb6093bdae00f3310dab77869f684cd79cb8f01d04abfee0086d9aa600ed4&=&width=800&height=100';
 
     try {
@@ -57,18 +60,16 @@ client.on('messageCreate', async message => {
       console.error('❌ خطأ في إرسال الفاصل أو الرياكشن:', err);
     }
   }
-}); // <-- هذا القوس كان ناقص
+});
 
-// سيرفر Express للحفاظ على تشغيل البوت
+// سيرفر Express لتشغيل البوت باستمرار
 const server = express();
-
 server.all('/', (req, res) => {
   res.send('Bot is alive!');
 });
-
 server.listen(process.env.PORT || 3000, () => {
   console.log('✅ Keep-alive server is running');
 });
 
+// تسجيل الدخول
 client.login(process.env.TOKEN);
-
