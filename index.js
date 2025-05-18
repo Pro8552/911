@@ -46,7 +46,7 @@ client.on('messageCreate', async message => {
 
   // رد على النقطة
   if (message.content.trim() === '.') {
-    return message.reply('https://tenor.com/view/trollszn123-ronaldo-gif-18268194');
+    return message.reply('https://images-ext-1.discordapp.net/external/ytjgK1HIlP_soJz9w6j_T6puEE5KpBI56gzFL4MtRnA/https/media.tenor.com/UKU-t6X9kVoAAAPo/trollszn123-ronaldo.gif');
   }
 
   // روم ستريك
