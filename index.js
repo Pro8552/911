@@ -39,22 +39,22 @@ client.on('messageCreate', async message => {
 
   const content = message.content.toLowerCase();
 
+  // رد السلام
   if (content.includes('السلام عليكم') || content.includes('سلام عليكم')) {
     return message.reply('**وعليكم السلام ورحمة الله وبركاته 🤍**');
   }
 
+  // رد على النقطة
   if (message.content.trim() === '.') {
     return message.reply('https://tenor.com/view/trollszn123-ronaldo-gif-18268194');
   }
 
-  if (
-    message.channel.name === '・𝑺𝒕𝒓𝒆𝒂𝒌' &&
-    message.content.trim().toLowerCase() === 'ستريك'
-  ) {
-    const separatorImageURL = 'https://media.discordapp.net/attachments/1247445270858305617/1373225755688964197/Untitled_design.gif?ex=6829a3a5&is=68285225&hm=330bb6093bdae00f3310dab77869f684cd79cb8f01d04abfee0086d9aa600ed4&=&width=800&height=100';
+  // روم ستريك
+  if (message.channel.name === '・𝑺𝒕𝒓𝒆𝒂𝒌') {
+    const gifURL = 'https://media.discordapp.net/attachments/1247445270858305617/1373225755688964197/Untitled_design.gif';
 
     try {
-      await message.channel.send({ files: [separatorImageURL] });
+      await message.channel.send({ files: [gifURL] });
       await message.react('<:5_:1373231138574831708>');
     } catch (err) {
       console.error('❌ خطأ في إرسال الفاصل أو الرياكشن:', err);
