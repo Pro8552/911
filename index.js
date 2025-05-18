@@ -58,11 +58,6 @@ client.on('messageCreate', async message => {
     }
   }
 
-  if (message.content === '!setbday') {
-    await message.reply('✨ تم إيقاف نظام أعياد الميلاد، شكرًا لتفهمك.');
-  }
-});
-
 // سيرفر Express للحفاظ على تشغيل البوت
 const server = express();
 
