@@ -51,7 +51,7 @@ client.on('messageCreate', async message => {
 
   // روم ستريك
   if (message.channel.name === '・𝑺𝒕𝒓𝒆𝒂𝒌') {
-    const gifURL = 'https://media.discordapp.net/attachments/1247445270858305617/1373225755688964197/Untitled_design.gif';
+    const gifURL = 'https://cdn.discordapp.com/attachments/1317785927732433016/1373317698590740641/Untitled_design.gif?ex=682aa206&is=68295086&hm=b396418e8f90552771d8de9ff310233c56de3e73799ed5b4ba12a273cd620f31&';
 
     try {
       await message.channel.send({ files: [gifURL] });
