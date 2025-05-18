@@ -57,6 +57,7 @@ client.on('messageCreate', async message => {
       console.error('❌ خطأ في إرسال الفاصل أو الرياكشن:', err);
     }
   }
+}); // <-- هذا القوس كان ناقص
 
 // سيرفر Express للحفاظ على تشغيل البوت
 const server = express();
@@ -70,3 +71,4 @@ server.listen(process.env.PORT || 3000, () => {
 });
 
 client.login(process.env.TOKEN);
+
